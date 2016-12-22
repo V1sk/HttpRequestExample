@@ -97,15 +97,11 @@ public class OkHttpRequestManager implements IRequestManager {
             @Override
             public void onResponse(final Call call, final Response response) throws IOException {
                 if (response.isSuccessful()) {
+                    final String json = response.body().string();
                     handler.post(new Runnable() {
                         @Override
                         public void run() {
-                            try {
-                                String json = response.body().string();
-                                requestCallback.onSuccess(json);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
+                            requestCallback.onSuccess(json);
                         }
                     });
                 } else {
